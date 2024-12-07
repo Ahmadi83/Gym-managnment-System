@@ -1,6 +1,5 @@
 
 import 'dart:async';
-
 import 'package:final_project/login%20form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -44,9 +43,9 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     )..repeat(); // انیمیشن چرخش مداوم
 
     // تایمر برای انتقال به صفحه بعد
-    Timer(Duration(seconds: 4), () {
+    Timer(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => LoginPage()),
+        MaterialPageRoute(builder: (context) => LoginScreen()),
       );
     });
   }
@@ -68,14 +67,16 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
           )
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-         Padding(
-          padding: const EdgeInsets.only(top: 200,left: 30),
-          child: Text('Welcome To Gym Managnment System',
-            style: TextStyle(fontSize: 35),),
-        ),
-            // بک‌گراند
 
+            Column(
+              children: [
+                Text('Welcome',style: TextStyle(fontSize: 50,fontWeight: FontWeight.bold),),
+                Text('To',style: TextStyle(fontSize: 40),),
+                Text('Gym Managnment System',style: TextStyle(fontSize: 30),),
+              ],
+            ),
 
             Container(
               decoration: BoxDecoration(
@@ -86,8 +87,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 ),
               ),
             ),
-
-
 
             Center(
               child: RotationTransition(
@@ -100,7 +99,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.3),
+                        color: Colors.black.withOpacity(0.5),
                         blurRadius: 10,
                         offset: Offset(0, 5),
                       ),

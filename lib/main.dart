@@ -1,11 +1,13 @@
+import 'package:final_project/login%20form.dart';
+import 'package:final_project/main_page.dart';
 import 'package:final_project/splashscreen.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
 
 
 void main(){
 
  runApp(MaterialApp(
-   home: SplashScreen(),
+   home: main_page(),
  )) ;
+
 }
