@@ -1,3 +1,6 @@
+import 'package:final_project/Reports.dart';
+import 'Contructual.dart';
+import 'Add competiton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -17,6 +20,7 @@ class _MyAppState extends State<main_page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+     // backgroundColor: Colors.orange[100],
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add,size: 35,),splashColor: Colors.greenAccent,
           onPressed: (){
@@ -43,9 +47,9 @@ class _MyAppState extends State<main_page> {
           children: [
             Row(
               children: [
-              Circleavatar('Reports', Icon(Icons.report) ),
-              Circleavatar('Contructual',Icon( Icons.repeat) ),
-              Circleavatar('Competition', Icon( Icons.wine_bar) ),
+              Circleavatar('Reports', Icon(Icons.report,size: 50,), Report() ),
+              Circleavatar('Contructual',Icon( Icons.repeat,size: 50,),Contructual() ),
+              Circleavatar('Competition', Icon( Icons.wine_bar,size: 50,),Add_competition() ),
               ]),
             SizedBox(height: 50,),
             Divider(color: Colors.black38,),
@@ -93,14 +97,18 @@ class _MyAppState extends State<main_page> {
 
 
 
-   Circleavatar(name,icon,){
+   Circleavatar(name,icon,page){
    return Column(
      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text('$name',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
         Padding(
           padding: const EdgeInsets.all(12.0),
-          child: CircleAvatar(child: icon,radius: 50,),
+          child: GestureDetector(child: CircleAvatar(child: icon,radius: 50,),
+          onDoubleTap: (){
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => page,));
+          },
+          ),
         )
       ],);
   }
