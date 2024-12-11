@@ -1,3 +1,5 @@
+import 'package:final_project/Classes.dart';
+import 'package:final_project/Database.dart';
 import 'package:flutter/material.dart';
 import 'main_page.dart';
 
@@ -10,12 +12,15 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
+  DatabaseHelper _database = DatabaseHelper();
   bool showPas = true;
   TextEditingController username_controller =TextEditingController();
   TextEditingController password_controller =TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -87,8 +92,29 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 30),
                     ElevatedButton(
-                      onPressed: () {
-                        Validation();
+                      onPressed: ()async {
+                        final user_name = username_controller.text;
+                        final password = password_controller.text;
+
+                        if(user_name.isNotEmpty && password.isNotEmpty){
+                          final Exist = await _database.checkLogin(user_name, password);
+
+                          if(Exist){
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => main_page(),));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Welcome Back[$user_name]❤❤')));
+                          }else{
+                            await _database.Insert_Login(Login(password: password, user_name: user_name));
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => main_page(),));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Welcome $user_name! your Account created ')));
+                          }
+
+                        }else{
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Please fill all fields'),backgroundColor: Colors.red,),
+                          );
+                        }
                         print(username_controller.text);
                       },
                       style: ElevatedButton.styleFrom(
@@ -109,20 +135,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
 
-  void Validation(){
-    var name = username_controller.text;
-    var password = password_controller.text;
-    if(name.isEmpty || password.isEmpty){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('User name or Password is Empty!'),
-      backgroundColor: Colors.red[400],));
-    }
-    else{
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => main_page(),));
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Welcome [$name] Your Password is [$password] 🖐🖐❤❤')));
-    }
-
-  }
   
   
   

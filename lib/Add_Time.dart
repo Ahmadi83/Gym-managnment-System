@@ -1,6 +1,9 @@
+import 'package:final_project/Classes.dart';
+import 'package:final_project/Database.dart';
 import 'package:final_project/main_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/find_locale.dart';
 
 
 
@@ -13,10 +16,21 @@ class Add_time extends StatefulWidget {
 
 class _MyAppState extends State<Add_time> {
 
+
  TextEditingController name_controller = TextEditingController();
  TextEditingController Time_controller = TextEditingController();
  TextEditingController Date_controller = TextEditingController();
  TextEditingController price_controller = TextEditingController();
+
+
+
+ @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+ }
+
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +55,20 @@ class _MyAppState extends State<Add_time> {
           AddBox().text_filds(3, 'Date', Date_controller),
           AddBox().text_filds(4, 'price', price_controller),
 
-          MaterialButton(onPressed: (){
-            print(name_controller.text);
-            print(Time_controller.text);
-            print(Date_controller.text);
-            print(price_controller.text);},
+          MaterialButton(onPressed: () async{
+            final free_time = Free_Time(
+                name: name_controller.text,
+                time: int.parse(Time_controller.text),
+                date: Date_controller.text,
+                price: int.parse(price_controller.text),
+            );
+            final db = DatabaseHelper();
+            await db.Insert_free(free_time);
 
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Free Time Added Successfully ✔✔✔'))
+            );
+            },
             child: Text('Save'),
             height: 40,minWidth: 100,
             color: Colors.greenAccent,
@@ -63,10 +85,7 @@ class _MyAppState extends State<Add_time> {
 
 
 class AddBox {
-  TextEditingController t_name_controll = TextEditingController();
-  TextEditingController time_controll = TextEditingController();
-  TextEditingController date_controll = TextEditingController();
-  TextEditingController price_controll = TextEditingController();
+
 
   text_filds(int f_number,String text_lable,TextEditingController control){
    return Column(
@@ -95,7 +114,6 @@ class AddBox {
             ],
           ),
         ),
-
       ],
     );
   }
